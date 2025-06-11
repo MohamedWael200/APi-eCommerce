@@ -8,6 +8,7 @@ const categoryRoute = require("./Routes/categoryRoute");
 const productRoute = require("./Routes/productRoute");
 const cartRoute = require("./Routes/cartRoute");
 const orderRoutes = require('./Routes/orderRoute');
+const reviewRoutes = require('./Routes/reviewRoute');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,6 +23,7 @@ app.use("/category" , categoryRoute)
 app.use("/product" , productRoute)
 app.use("/cart" , cartRoute)
 app.use('/orders', orderRoutes);
+app.use('/reviews', reviewRoutes);
 
 mongoose
     .connect(process.env.MONGO_URI)
