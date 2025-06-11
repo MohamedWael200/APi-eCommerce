@@ -19,14 +19,14 @@ const orderSchema = new mongoose.Schema({
   shippingAddress: { type: String, required: true },
   paymentStatus: {
     type: String,
-    enum: ["paid", "unpaid"],
-    default: "unpaid"
+    enum: ['unpaid', 'pending', 'paid', 'failed', 'refunded', 'canceled'],
+    default: 'unpaid'
   },
   paymentMethod: {
     type: String,
-    enum: ["cash", "card"],
-    default: "cash"
-  }
+    enum: ['cash', 'card', 'paypal', 'stripe', 'bank_transfer'],
+    default: 'cash'
+  },
 }, { timestamps: true });
 
 module.exports = mongoose.model("Order", orderSchema);
