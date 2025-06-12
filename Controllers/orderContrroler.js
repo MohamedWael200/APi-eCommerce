@@ -2,13 +2,29 @@ const Order = require('../models/Order');
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
 const sanitize = require("sanitize-html");
+const Coupon = require('../models/Coupon');
 
 // إنشاء طلب جديد
 const createOrder = async (req, res) => {
   try {
-    const { shippingAddress, paymentMethod = 'cash' } = req.body;
+    const { shippingAddress, paymentMethod = 'cash' , couponCode } = req.body;
     const userId = req.user.id;
 
+   let appliedCoupon = null;
+if (couponCode) {
+  appliedCoupon = await Coupon.findOne({ code: couponCode });
+
+  if (
+    !appliedCoupon || 
+    appliedCoupon.usageLimit <= 0 || 
+    new Date() < new Date(appliedCoupon.validFrom) || 
+    new Date() > new Date(appliedCoupon.validTo)
+  ) {
+    return res.status(400).json({
+      message: "Invalid or expired coupon"
+    });
+  }
+}
     // التحقق من البيانات المطلوبة
     if (!shippingAddress) {
       return res.status(400).json({
