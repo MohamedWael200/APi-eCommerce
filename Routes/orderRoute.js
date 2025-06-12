@@ -9,12 +9,17 @@ const {
   AdminAll,
   VendorAllOrders
 } = require("../Controllers/orderContrroler");
+const limiter = require("../middleware/Limiter")
+
 
 const auth = require("../middleware/auth");
 const isAdmin = require("../middleware/isAdmin");
 const isVendor = require("../middleware/isVendor");
 
 const router = express.Router();
+
+
+router.use(limiter);
 
 // إنشاء طلب جديد - العملاء فقط
 router.post("/create", auth, createOrder);

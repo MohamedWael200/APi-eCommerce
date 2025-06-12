@@ -3,6 +3,10 @@ const router = express.Router();
 const categoryContrroler =  require("../Controllers/categoryContrroler");
 const auth = require("../middleware/auth");
 const isAdmin = require("../middleware/isAdmin");
+const limiter = require("../middleware/Limiter")
+
+router.use(limiter);
+
 
 router.post("/create" ,auth , isAdmin , categoryContrroler.createCategory)
 router.get("/categories" , categoryContrroler.getAllCategories)
